@@ -21,9 +21,42 @@ class Test(unittest.TestCase):
     # Apellidos con guion
     def testApellidosGuion(self):
         billetera = BilleteraElectronica(4,'Maria','Del-Valle',26738111,'32ASo')
+    # Al debitar la cuenta, el saldo queda en cero (monto a debitar=saldo disponible)
+    def testSaldoFinalCero(self):
+        billetera = BilleteraElectronica(5,'Andres','Navarro',21315197,'AAA12')
+        billetera.recargar(20,'01/01/2015',501)
+        billetera.consumir(20,'02/01/2015',502,'AAA12')
+        self.assertEqual(billetera.saldo,0)
+    '''# Introduccion clave correcta
+    def testClaveCorrecta(self):
+        billetera = BilleteraElectronica(5,'Daniela','Parra',21345100,'34ZZa')
+        billetera.recargar(20,'01/01/2015',501)
+        billetera.consumir(10,'02/01/2015',502,'34ZZa')
+        self.assertEqual(billetera.saldo,10)        
+    '''
+    # Introduccion monto negativo para recargar
+    def testRecargarNegativo(self):
+        billetera = BilleteraElectronica(6,'Nelson','Saturno',20489547,'NAST9')
+        self.assertRaises(Exception,billetera.recargar,-10,'02/05/2015',500)
+    # Introduccion monto negativo para consumir
+    def testConsumoNegativo(self):
+        billetera = BilleteraElectronica(7,'Susana','Rodriguez',24289557,'Sus4R')
+        billetera.recargar(20,'01/01/2015',501)
+        self.assertRaises(Exception,billetera.consumir,-10,'02/01/2015',502,'Sus4R')
+    # Introduccion monto consumo mayor a saldo disponible
+    def testConsumoMayorASaldo(self):
+        billetera = BilleteraElectronica(10,'Rodrigo','Teran',21367888,'1230O')
+        billetera.recargar(20,'22/12/2014',510)
+        self.assertRaises(Exception,billetera.consumir,21,'25/12/2014',511,'1230O')
+        
+    # Introduccion de clave erronea
+    def testClaveErronea(self):
+        billetera = BilleteraElectronica(8,'Mariana','Nunez',21345100,'AAA12')
+        billetera.recargar(20,'01/01/2015',501)
+        self.assertRaises(Exception,billetera.consumir,10,'02/01/2015',502,'AAA13')
     # Caracteres no numericos en cedula
     def testCILetras(self):
-        pass
+        self.assertRaises(Exception,BilleteraElectronica,9,'Belinda','Morillo','123q','6900',0,[],[])
     
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
