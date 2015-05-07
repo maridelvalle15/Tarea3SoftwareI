@@ -27,13 +27,23 @@ class Test(unittest.TestCase):
         billetera.recargar(20,'01/01/2015',501)
         billetera.consumir(20,'02/01/2015',502,'AAA12')
         self.assertEqual(billetera.saldo,0)
-    '''# Introduccion clave correcta
-    def testClaveCorrecta(self):
-        billetera = BilleteraElectronica(5,'Daniela','Parra',21345100,'34ZZa')
-        billetera.recargar(20,'01/01/2015',501)
-        billetera.consumir(10,'02/01/2015',502,'34ZZa')
-        self.assertEqual(billetera.saldo,10)        
-    '''
+    # Recarga de monto muy grande
+    def testMontoGrande(self):
+        billetera = BilleteraElectronica(5,'Andres','Navarro',21315197,'AAA12')
+        billetera.recargar(999999999999999999999999999,'10/10/2015',590)
+        self.assertEqual(billetera.saldo,999999999999999999999999999)
+    # Nombre invalido
+    def testNombreInvalido(self):
+        self.assertRaises(Exception,BilleteraElectronica,11,'','Perez',23456772,'32wqZ')
+    # Apellido invalido
+    def testApellidoInvalido(self):
+        self.assertRaises(Exception,BilleteraElectronica,12,'Jorge','',22436780,'32wqZ')
+    # Num cedula invalido
+    def testCIInvalido(self):
+        self.assertRaises(Exception,BilleteraElectronica,13,'Pedro','Perez',0,'32wqZ')
+    # PIN invalido
+    def testPINInvalido(self):
+        self.assertRaises(Exception,BilleteraElectronica,14,'Marta','Perez',23456772,'')
     # Introduccion monto negativo para recargar
     def testRecargarNegativo(self):
         billetera = BilleteraElectronica(6,'Nelson','Saturno',20489547,'NAST9')

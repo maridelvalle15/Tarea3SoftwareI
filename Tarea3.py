@@ -6,7 +6,7 @@ Created on May 4, 2015
 
 class BilleteraElectronica:
     
-    def __init__(self,id,nombres,apellidos,CI,PIN,saldo,recargas,consumos):
+    def __init__(self,id,nombres,apellidos,CI,PIN,saldo=0,recargas=[],consumos=[]):
         self.id = id
         self.nombres = nombres
         self.apellidos = apellidos
@@ -15,6 +15,15 @@ class BilleteraElectronica:
         self.saldo = saldo
         self.recargas = recargas
         self.consumos = consumos
+        
+        if (nombres=='') or (apellidos==''):
+            raise Exception ("Los campos de nombre y apellido deben contener al menos 1 letra")
+        
+        if (CI==0):
+            raise Exception ("El numero de cedula es invalido")
+        
+        if (PIN==''):
+            raise Exception ("Debe introducir un PIN valido")
         
         if not isinstance (CI,int):
             raise Exception ("La cedula solo debe contener caracteres numericos")
