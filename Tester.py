@@ -8,7 +8,31 @@ from Tarea3 import *
 
 
 class Test(unittest.TestCase):
-
+    
+    # Chequeo de funciones
+    
+    # Chequear crear instancia
+    def testInit(self):
+        billetera = BilleteraElectronica(100,'Luis','Iglesias',26718221,'Uyh76E',0,[],[])
+    # Chequear que se realizo la recarga
+    def testRecarga(self):
+        pruebabil = BilleteraElectronica(100,'Luis','Iglesias',26718221,'Uyh76E',0,[],[])
+        pruebabil.recargar(100,'09/11/2014',599)
+        self.assertEqual(pruebabil.verRecargas(),[[100,'09/11/2014',599]])
+    # Chequear que se realizo el consumo
+    def testConsumo(self):
+        pruebabil = BilleteraElectronica(100,'Luis','Iglesias',26718221,'Uyh76E',0,[],[])
+        pruebabil.recargar(100,'09/11/2014',599)
+        pruebabil.consumir(50, '09/12/2014', 600, 'Uyh76E')
+        self.assertEqual(pruebabil.verConsumos(),[[50,'09/12/2014',600]])
+    # Chequear saldo disponible
+    def testSaldo(self):
+        pruebabil = BilleteraElectronica(102,'Oscar','Guillen',21652890,'a1A54E',100,[],[])
+        pruebabil.recargar(100,'16/08/2014',298)
+        self.assertEqual(pruebabil.verSaldo(),200)        
+    
+    # Casos de prueba
+    
     # Apellidos con Acentos
     def testApellidosAcentos(self):
         billetera = BilleteraElectronica(1,'Juan','Pérez',20495287,'A123B')
