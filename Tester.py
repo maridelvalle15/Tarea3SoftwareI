@@ -1,8 +1,4 @@
-'''
-Created on May 6, 2015
 
-@author: marisela
-'''
 import unittest
 from Tarea3 import *
 
@@ -14,6 +10,16 @@ class Test(unittest.TestCase):
     # Chequear crear instancia
     def testInit(self):
         billetera = BilleteraElectronica(100,'Luis','Iglesias',26718221,'Uyh76E',0,[],[])
+        self.assertEqual(billetera.nombres,'Luis')
+        self.assertEqual(billetera.apellidos,'Iglesias')
+        self.assertEqual(billetera.ci,26718221)
+        self.assertEqual(billetera.pin,'Uyh76E')
+        self.assertEqual(billetera.id,100)
+        self.assertEqual(billetera.saldo,0)
+        self.assertEqual(billetera.recargas,[])
+        self.assertEqual(billetera.consumos,[])
+        
+
     # Chequear que se realizo la recarga
     def testRecarga(self):
         pruebabil = BilleteraElectronica(100,'Luis','Iglesias',26718221,'Uyh76E',0,[],[])
@@ -36,15 +42,19 @@ class Test(unittest.TestCase):
     # Apellidos con Acentos
     def testApellidosAcentos(self):
         billetera = BilleteraElectronica(1,'Juan','Pérez',20495287,'A123B')
+        self.assertEqual(billetera.apellidos,'Pérez')
     # Apellidos con Ñ
     def testApellidosEnie(self):
         billetera = BilleteraElectronica(2,'Roberto','Patiño',20495281,'A123C')
+        self.assertEqual(billetera.apellidos,'Patiño')
     # Apellidos con dieresis
     def testApellidosDieresis(self):
         billetera = BilleteraElectronica(3,'Ricardo','Münch',20176224,'A234A')
+        self.assertEqual(billetera.apellidos,'Münch')
     # Apellidos con guion
     def testApellidosGuion(self):
         billetera = BilleteraElectronica(4,'Maria','Del-Valle',26738111,'32ASo')
+        self.assertEqual(billetera.apellidos,'Del-Valle')
     # Al debitar la cuenta, el saldo queda en cero (monto a debitar=saldo disponible)
     def testSaldoFinalCero(self):
         billetera = BilleteraElectronica(5,'Andres','Navarro',21315197,'AAA12')
@@ -58,10 +68,16 @@ class Test(unittest.TestCase):
         self.assertEqual(billetera.saldo,999999999999999999999999999)
     # Nombre invalido
     def testNombreInvalido(self):
-        self.assertRaises(Exception,BilleteraElectronica,11,'','Perez',23456772,'32wqZ')
+        self.assertRaises(Exception,BilleteraElectronica,11,5,'Perez',23456772,'32wqZ')
+    # Nombre vacio
+    def testNombreVacio(self):
+        self.assertRaises(Exception,BilleteraElectronica,11,' ','Perez',23456772,'32wqZ')    
     # Apellido invalido
     def testApellidoInvalido(self):
-        self.assertRaises(Exception,BilleteraElectronica,12,'Jorge','',22436780,'32wqZ')
+        self.assertRaises(Exception,BilleteraElectronica,12,'Jorge',51,22436780,'32wqZ')
+     # Apellido vacio
+    def testApellidoVacio(self):
+        self.assertRaises(Exception,BilleteraElectronica,12,'Jorge',' ',22436780,'32wqZ')
     # Num cedula invalido
     def testCIInvalido(self):
         self.assertRaises(Exception,BilleteraElectronica,13,'Pedro','Perez',0,'32wqZ')
@@ -91,6 +107,7 @@ class Test(unittest.TestCase):
     # Caracteres no numericos en cedula
     def testCILetras(self):
         self.assertRaises(Exception,BilleteraElectronica,9,'Belinda','Morillo','123q','6900',0,[],[])
+                   
     
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

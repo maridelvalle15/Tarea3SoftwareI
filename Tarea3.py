@@ -11,7 +11,7 @@ class BilleteraElectronica:
         self.recargas = recargas
         self.consumos = consumos
         
-        if (nombres=='') or (apellidos==''):
+        if (nombres=='') or (apellidos=='') or  (nombres==' ') or (apellidos==' '):
             raise Exception ("Los campos de nombre y apellido deben contener al menos 1 letra")
         
         if (CI==0):
@@ -22,6 +22,10 @@ class BilleteraElectronica:
         
         if not isinstance (CI,int):
             raise Exception ("La cedula solo debe contener caracteres numericos")
+        
+        if (not isinstance(nombres, str)) or (not isinstance(apellidos, str)):
+             raise Exception ("Los nombres y apellidos deben ser una cadena de caracteres")
+        
         
     def recargar(self,monto,fecha,idEstablecimiento):
         if (monto<0) : 
